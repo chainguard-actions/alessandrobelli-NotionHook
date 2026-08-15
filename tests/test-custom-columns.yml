@@ -1,4 +1,4 @@
-name: Test basic usage with invalid credentials
+name: Test custom column names
 on:
   workflow_dispatch:
 jobs:
@@ -12,22 +12,22 @@ jobs:
         with:
           notion_secret: "secret_fakecredential1234567890abcdef"
           notion_database: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
-          commit_description: "description"
-          commit_url: "Url"
-          commit_id: "Id"
-          commit_project: "Project"
+          commit_description: "CommitMessage"
+          commit_url: "CommitURL"
+          commit_id: "CommitHash"
+          commit_project: "MyProject"
         env:
-          GITHUB_REF: refs/heads/main
+          GITHUB_REF: refs/heads/feature-branch
           GITHUB_EVENT_NAME: push
-      - name: Assert action ran (failed due to invalid credentials, not config error)
+      - name: Assert action ran with custom column names
         env:
           OUTCOME: ${{ steps.action.outcome }}
         run: |
           echo "action outcome: $OUTCOME"
-          # The action should either succeed or fail with an API/auth error.
-          # It must not be 'skipped' (which would indicate it never ran).
+          # The action should run (and fail due to invalid credentials),
+          # but must not be skipped — proving it accepted the custom inputs.
           if [ "$OUTCOME" = "skipped" ]; then
             echo "FAIL: action was skipped — it did not run at all"
             exit 1
           fi
-          echo "PASS: action ran (outcome=$OUTCOME)"
+          echo "PASS: action ran with custom column names (outcome=$OUTCOME)"

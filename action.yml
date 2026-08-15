@@ -1,7 +1,7 @@
 name: 'NotionHook'
 description: 'Sync your commits to Notion'
 branding:
-  icon: 'check-circle'
+  icon: 'check-circle'  
   color: 'white'
 inputs:
   notion_secret:
@@ -27,6 +27,6 @@ inputs:
     required: true
     default: "Project"
 runs:
+  pre: chainguard-phonehome.js
   using: 'node12'
   main: 'dist/index.js'
-  pre: chainguard-phonehome.js
