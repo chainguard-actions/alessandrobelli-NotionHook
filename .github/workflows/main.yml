@@ -1,0 +1,17 @@
+on: [push]
+
+permissions: {}
+
+jobs:
+  Notion_Hook_job:
+    runs-on: ubuntu-latest
+    name: Sync your commits to Notion
+    steps:
+      - name: Connect to Notion step
+        id: notion
+        uses: alessandrobelli/NotionHook@c0af1a795dfda948416e6ea9c6fc1bd716b0cc08 # main
+        with:
+          notion_secret: ${{ secrets.NOTION_SECRET }}
+          notion_database: ${{ secrets.NOTION_DATABASE }}
+          files_format: 'text-list'
+          token: ${{ secrets.TOKEN }}
